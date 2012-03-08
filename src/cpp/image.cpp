@@ -206,11 +206,11 @@ void Image::print() {
   cout << "P3" << endl;
   cout << m_width << " " << m_height << endl;
   cout << m_maxval << endl;
-  for (unsigned int i = 1; i <= m_height; i++ ) {
-    for (unsigned int k = 1; k <= m_width; k++ ) {
-      cout << m_data[(i*k)-1].r << " ";
-      cout << m_data[(i*k)-1].g << " ";
-      cout << m_data[(i*k)-1].b << " ";
+  for (unsigned int i = 0; i < m_height; i++ ) {
+    for (unsigned int k = 0; k < m_width; k++ ) {
+      cout << m_data[index(i,k)].r << " ";
+      cout << m_data[index(i,k)].g << " ";
+      cout << m_data[index(i,k)].b << " ";
       cout << "   ";
     }
     cout << endl;
