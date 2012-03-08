@@ -19,21 +19,32 @@ Image Image::readPPM(const std::string& filename) {
   unsigned maxval;
 
   ifstream f(filename);
-  if (f.is_open()) {
-    string s;
-    getline(f, s);
-    assert(s == "P3");
-    f >> width;
-    f >> height;
-    f >> maxval;
+  assert(f.is_open());
 
-    cout << "width: " << width << endl;
-    cout << "height: " << height << endl;
-    cout << "maxval: " << maxval << endl;
+  string s;
+  getline(f, s);
+  assert(s == "P3");
+
+  f >> width;
+  f >> height;
+  f >> maxval;
+
+  Image img(height, width, maxval);
+
+  for (unsigned i = 0; i < height; ++i) {
+    for (unsigned j = 0; j < width; ++j) {
+      unsigned index = img.index(i,j);
+      f >> img.m_data[index].r;
+      f >> img.m_data[index].g;
+      f >> img.m_data[index].b;
+    }
   }
 
-  Image i = Image(4,5,5);
-  return i;
+  return img;
+}
+
+unsigned Image::index(unsigned height, unsigned width) {
+  return m_height * height + width;
 }
 
 void Image::smoothen() {
@@ -43,7 +54,5 @@ void Image::smoothen() {
   //char[m_height*m_width] data;
   //for (int i=0; i<m_width ; i++) {
   //  for (int k=0; k<m_height; k++) {
-
-
-
 }
+

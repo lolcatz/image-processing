@@ -13,6 +13,7 @@ struct Image {
   static Image readPPM(const std::string&);
   Image(unsigned, unsigned, unsigned);
 
+  unsigned index(unsigned, unsigned);
   void sharpen();
   void smoothen();
 };
