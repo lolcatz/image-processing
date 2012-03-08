@@ -30,7 +30,7 @@ Image Image::readPPM(const std::string& filename) {
   f >> height;
   f >> maxval;
 
-  Image img(height, width, maxval);
+  Image img(width, height, maxval);
 
   for (unsigned i = 0; i < height; ++i) {
     for (unsigned j = 0; j < width; ++j) {
