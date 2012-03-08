@@ -1,4 +1,8 @@
 #include "image.h"
+#include <fstream>
+#include <iostream>
+
+using namespace std;
 
 Image::Image(unsigned width, unsigned height, unsigned maxval):
   m_width(width),
@@ -8,9 +12,17 @@ Image::Image(unsigned width, unsigned height, unsigned maxval):
 {
 }
 
-Image Image::readPPM(const std::string& /*filename*/) {
-  Image i = Image(5, 6, 10);
-  return i;
+Image Image::readPPM(const std::string& filename) {
+  ifstream f(filename);
+  if (f.is_open()) {
+    while (f.good()) {
+      string s;
+      getline(f, s);
+      cout << s << endl;
+    }
+  }
 
+  Image i = Image(4,5,5);
+  return i;
 }
 
