@@ -53,7 +53,7 @@ unsigned Image::index(unsigned height, unsigned width) {
 void Image::smoothen() {
   //cout << "Smoothing <3" << endl;
   //smaller value == stronger smoothing
-  int strength = 30;
+  int strength = 12;
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
   Pixel* data = new Pixel[m_height*m_width];
@@ -67,16 +67,16 @@ void Image::smoothen() {
       bool left = false;
       //Saman rivin viereiset pikselit
       if (i+1 < m_width) {
-        pxl.r += (pxl.r - m_data[index(k, i+1)].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[index(k, i+1)].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[index(k, i+1)].b) * (1/strength);
+        pxl.r -= (pxl.r - m_data[index(k, i+1)].r)/strength;
+        pxl.g -= (pxl.g - m_data[index(k, i+1)].g)/strength;
+        pxl.b -= (pxl.b - m_data[index(k, i+1)].b)/strength;
         right = true;
       }
       if ((int)i-1 >= 0)
       {
-        pxl.r += (pxl.r - m_data[index(k, i-1)].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[index(k, i-1)].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[index(k, i-1)].b) * (1/strength);
+        pxl.r -= (pxl.r - m_data[index(k, i-1)].r)/strength;
+        pxl.g -= (pxl.g - m_data[index(k, i-1)].g)/strength;
+        pxl.b -= (pxl.b - m_data[index(k, i-1)].b)/strength;
         left = true;
       }
       //Yläpikselit
@@ -84,19 +84,19 @@ void Image::smoothen() {
       {
         if (right)
         {
-          pxl.r += (pxl.r - m_data[index(k-1, i+1)].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[index(k-1, i+1)].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[index(k-1, i+1)].b) * (1/strength);
+          pxl.r -= (pxl.r - m_data[index(k-1, i+1)].r)/strength;
+          pxl.g -= (pxl.g - m_data[index(k-1, i+1)].g)/strength;
+          pxl.b -= (pxl.b - m_data[index(k-1, i+1)].b)/strength;
         }
 
-        pxl.r += (pxl.r - m_data[index(k-1, i)].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[index(k-1, i)].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[index(k-1, i)].b) * (1/strength);
+        pxl.r -= (pxl.r - m_data[index(k-1, i)].r)/strength;
+        pxl.g -= (pxl.g - m_data[index(k-1, i)].g)/strength;
+        pxl.b -= (pxl.b - m_data[index(k-1, i)].b)/strength;
         if (left)
         {
-          pxl.r += (pxl.r - m_data[index(k-1, i-1)].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[index(k-1, i-1)].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[index(k-1, i-1)].b) * (1/strength);
+          pxl.r -= (pxl.r - m_data[index(k-1, i-1)].r)/strength;
+          pxl.g -= (pxl.g - m_data[index(k-1, i-1)].g)/strength;
+          pxl.b -= (pxl.b - m_data[index(k-1, i-1)].b)/strength;
         }
       }
 
@@ -105,22 +105,29 @@ void Image::smoothen() {
       {
         if (right)
         {
-          pxl.r += (pxl.r - m_data[index(k+1, i+1)].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[index(k+1, i+1)].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[index(k+1, i+1)].b) * (1/strength);
+          pxl.r -= (pxl.r - m_data[index(k+1, i+1)].r)/strength;
+          pxl.g -= (pxl.g - m_data[index(k+1, i+1)].g)/strength;
+          pxl.b -= (pxl.b - m_data[index(k+1, i+1)].b)/strength;
         }
 
-        pxl.r += (pxl.r - m_data[index(k+1, i)].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[index(k+1, i)].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[index(k+1, i)].b) * (1/strength);
+        pxl.r -= (pxl.r - m_data[index(k+1, i)].r)/strength;
+        pxl.g -= (pxl.g - m_data[index(k+1, i)].g)/strength;
+        pxl.b -= (pxl.b - m_data[index(k+1, i)].b)/strength;
 
         if(left)
         {
-          pxl.r += (pxl.r - m_data[index(k+1, i-1)].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[index(k+1, i-1)].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[index(k+1, i-1)].b) * (1/strength);
+          pxl.r -= (pxl.r - m_data[index(k+1, i-1)].r)/strength;
+          pxl.g -= (pxl.g - m_data[index(k+1, i-1)].g)/strength;
+          pxl.b -= (pxl.b - m_data[index(k+1, i-1)].b)/strength;
         }
       }
+      if (pxl.r < 0)
+	pxl.r = 0;
+      if (pxl.b < 0)
+	pxl.b = 0;
+      if (pxl.g < 0)
+	pxl.g = 0;
+
       //cout << "finished this pixel" << endl;
       data[index(k, i)] = pxl;
     }

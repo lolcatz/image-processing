@@ -2,9 +2,9 @@
 #define H_PIXEL
 
 struct Pixel {
-  unsigned r;
-  unsigned g;
-  unsigned b;
+  int r;
+  int g;
+  int b;
 };
 
 #endif
