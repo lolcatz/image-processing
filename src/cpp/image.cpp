@@ -48,7 +48,7 @@ void Image::smoothen() {
   Pixel* data = new Pixel[m_height*m_width];
   for (unsigned int i=1; i<=m_width; i++) {
     for (unsigned int k=1; k<=m_height; k++) {
-      Pixel pxl = m_data[i*k];
+      Pixel pxl = m_data[(i*k)-1];
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
@@ -107,6 +107,7 @@ void Image::smoothen() {
           pxl.b += (pxl.b - m_data[(i-1)*(k+1)-1].b) * (1/7);
         }
       }
+      data[(i*k)-1] = pxl;
     }
   }
   m_data = data;
