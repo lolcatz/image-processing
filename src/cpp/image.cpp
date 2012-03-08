@@ -53,7 +53,7 @@ unsigned Image::index(unsigned height, unsigned width) {
 void Image::smoothen() {
   //cout << "Smoothing <3" << endl;
   //smaller value == stronger smoothing
-  int strength = 3;
+  int strength = 30;
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
   Pixel* data = new Pixel[m_height*m_width];
@@ -209,8 +209,8 @@ void Image::print() {
   for (unsigned int i = 1; i <= m_height; i++ ) {
     for (unsigned int k = 1; k <= m_width; k++ ) {
       cout << m_data[(i*k)-1].r << " ";
-      cout << m_data[(i*k)-1].b << " ";
       cout << m_data[(i*k)-1].g << " ";
+      cout << m_data[(i*k)-1].b << " ";
       cout << "   ";
     }
     cout << endl;
