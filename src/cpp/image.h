@@ -16,6 +16,7 @@ struct Image {
   unsigned index(unsigned, unsigned);
   void sharpen();
   void smoothen();
+  void print();
 };
 
 #endif
