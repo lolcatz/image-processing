@@ -1,6 +1,7 @@
 #include "image.h"
 #include <fstream>
 #include <iostream>
+#include <cassert>
 
 using namespace std;
 
@@ -13,13 +14,22 @@ Image::Image(unsigned width, unsigned height, unsigned maxval):
 }
 
 Image Image::readPPM(const std::string& filename) {
+  unsigned height;
+  unsigned width;
+  unsigned maxval;
+
   ifstream f(filename);
   if (f.is_open()) {
-    while (f.good()) {
-      string s;
-      getline(f, s);
-      cout << s << endl;
-    }
+    string s;
+    getline(f, s);
+    assert(s == "P3");
+    f >> width;
+    f >> height;
+    f >> maxval;
+
+    cout << "width: " << width << endl;
+    cout << "height: " << height << endl;
+    cout << "maxval: " << maxval << endl;
   }
 
   Image i = Image(4,5,5);
