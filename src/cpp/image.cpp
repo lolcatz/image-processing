@@ -45,7 +45,7 @@ Image Image::readPPM(const std::string& filename) {
 }
 
 unsigned Image::index(unsigned height, unsigned width) {
-  return m_height * height + width;
+  return m_width * height + width;
 }
 
 
