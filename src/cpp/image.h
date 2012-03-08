@@ -2,6 +2,7 @@
 #define H_IMAGE
 
 #include <string>
+#include <fstream>
 #include "pixel.h"
 
 struct Image {
@@ -16,7 +17,7 @@ struct Image {
   unsigned index(unsigned, unsigned);
   void sharpen();
   void smoothen();
-  void print();
+  std::ostream& printPPM(std::ostream&);
 };
 
 #endif

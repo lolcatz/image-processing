@@ -202,17 +202,18 @@ void Image::sharpen() {
   m_data = data;
 }
 
-void Image::print() {
-  cout << "P3" << endl;
-  cout << m_width << " " << m_height << endl;
-  cout << m_maxval << endl;
+std::ostream& Image::printPPM(std::ostream& out) {
+  out << "P3" << endl;
+  out << m_width << " " << m_height << endl;
+  out << m_maxval << endl;
   for (unsigned int i = 0; i < m_height; i++ ) {
     for (unsigned int k = 0; k < m_width; k++ ) {
-      cout << m_data[index(i,k)].r << " ";
-      cout << m_data[index(i,k)].g << " ";
-      cout << m_data[index(i,k)].b << " ";
-      cout << "   ";
+      out << m_data[index(i,k)].r << " ";
+      out << m_data[index(i,k)].g << " ";
+      out << m_data[index(i,k)].b << " ";
+      out << "   ";
     }
-    cout << endl;
+    out << endl;
   }
+  return out;
 }
