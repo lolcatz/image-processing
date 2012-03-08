@@ -44,9 +44,10 @@ void Image::smoothen() {
 
   // Smoothening. doing smoothed values into a new m_data
 
-  Pixel[m_height*m_width] data;
-  for (int i=1; i<=m_width; i++) {
-    for (int k=1; k<=m_height; k++) {
+  //Pixel[m_height*m_width] data;
+  Pixel* data = new Pixel[m_height*m_width];
+  for (unsigned int i=1; i<=m_width; i++) {
+    for (unsigned int k=1; k<=m_height; k++) {
       Pixel pxl = m_data[i*k];
       bool right = false;
       bool left = false;
