@@ -57,9 +57,12 @@ void Image::smoothen() {
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
   Pixel* data = new Pixel[m_height*m_width];
-  for (unsigned int i=0; i<m_width; i++) {
-    for (unsigned int k=0; k<m_height; k++) {
-      Pixel pxl = m_data[index(k, i)];
+  for (unsigned int k=0; k < m_height; k++) {
+    for (unsigned int i=0; i < m_width; i++) {
+      //cout << i << ", " << k << endl;
+      Pixel pxl;
+      pxl = m_data[index(k, i)];
+      //cout << "doing something" << endl;
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
@@ -118,7 +121,8 @@ void Image::smoothen() {
           pxl.b += (pxl.b - m_data[index(k+1, i-1)].b) * (1/strength);
         }
       }
-      data[(i*k)-1] = pxl;
+      //cout << "finished this pixel" << endl;
+      data[index(k, i)] = pxl;
     }
   }
   m_data = data;
@@ -138,7 +142,7 @@ void Image::sharpen() {
 
   for (unsigned int i=0; i< m_width; i++) {
     for (unsigned int k=0; k< m_height; k++) {
-      Pixel pxl = m_data[(i*k)-1];
+      Pixel pxl = m_data[index(k, i)];
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
