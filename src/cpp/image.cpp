@@ -138,11 +138,12 @@ void Image::sharpen() {
 
   for (unsigned int i = 0; i< m_width*m_height; ++i){
     data[i] = m_data[i];
-}
+  }
 
   for (unsigned int i=0; i< m_width; i++) {
     for (unsigned int k=0; k< m_height; k++) {
-      Pixel pxl = m_data[index(k, i)];
+      Pixel pxl;
+      pxl = m_data[index(k, i)];
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
