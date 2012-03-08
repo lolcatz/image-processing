@@ -57,43 +57,46 @@ void Image::smoothen() {
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
   Pixel* data = new Pixel[m_height*m_width];
-  for (unsigned int i=1; i<=m_width; i++) {
-    for (unsigned int k=1; k<=m_height; k++) {
-      Pixel pxl = m_data[(i*k)-1];
+  for (unsigned int k=0; k < m_height; k++) {
+    for (unsigned int i=0; i < m_width; i++) {
+      //cout << i << ", " << k << endl;
+      Pixel pxl;
+      pxl = m_data[index(k, i)];
+      //cout << "doing something" << endl;
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
       if (i+1 < m_width) {
-        pxl.r += (pxl.r - m_data[(i+1)*k-1].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[(i+1)*k-1].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[(i+1)*k-1].b) * (1/strength);
+        pxl.r += (pxl.r - m_data[index(k, i+1)].r) * (1/strength);
+        pxl.g += (pxl.g - m_data[index(k, i+1)].g) * (1/strength);
+        pxl.b += (pxl.b - m_data[index(k, i+1)].b) * (1/strength);
         right = true;
       }
-      if (i-1 > 0)
+      if ((int)i-1 >= 0)
       {
-        pxl.r += (pxl.r - m_data[(i-1)*k-1].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[(i-1)*k-1].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[(i-1)*k-1].b) * (1/strength);
+        pxl.r += (pxl.r - m_data[index(k, i-1)].r) * (1/strength);
+        pxl.g += (pxl.g - m_data[index(k, i-1)].g) * (1/strength);
+        pxl.b += (pxl.b - m_data[index(k, i-1)].b) * (1/strength);
         left = true;
       }
       //Yläpikselit
-      if (k-1 > 0)
+      if ((int)k-1 >= 0)
       {
         if (right)
         {
-          pxl.r += (pxl.r - m_data[(i+1)*(k-1)-1].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[(i+1)*(k-1)-1].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[(i+1)*(k-1)-1].b) * (1/strength);
+          pxl.r += (pxl.r - m_data[index(k-1, i+1)].r) * (1/strength);
+          pxl.g += (pxl.g - m_data[index(k-1, i+1)].g) * (1/strength);
+          pxl.b += (pxl.b - m_data[index(k-1, i+1)].b) * (1/strength);
         }
 
-        pxl.r += (pxl.r - m_data[(i)*(k-1)-1].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[(i)*(k-1)-1].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[(i)*(k-1)-1].b) * (1/strength);
+        pxl.r += (pxl.r - m_data[index(k-1, i)].r) * (1/strength);
+        pxl.g += (pxl.g - m_data[index(k-1, i)].g) * (1/strength);
+        pxl.b += (pxl.b - m_data[index(k-1, i)].b) * (1/strength);
         if (left)
         {
-          pxl.r += (pxl.r - m_data[(i-1)*(k-1)-1].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[(i-1)*(k-1)-1].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[(i-1)*(k-1)-1].b) * (1/strength);
+          pxl.r += (pxl.r - m_data[index(k-1, i-1)].r) * (1/strength);
+          pxl.g += (pxl.g - m_data[index(k-1, i-1)].g) * (1/strength);
+          pxl.b += (pxl.b - m_data[index(k-1, i-1)].b) * (1/strength);
         }
       }
 
@@ -102,23 +105,24 @@ void Image::smoothen() {
       {
         if (right)
         {
-          pxl.r += (pxl.r - m_data[(i+1)*(k+1)-1].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[(i+1)*(k+1)-1].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[(i+1)*(k+1)-1].b) * (1/strength);
+          pxl.r += (pxl.r - m_data[index(k+1, i+1)].r) * (1/strength);
+          pxl.g += (pxl.g - m_data[index(k+1, i+1)].g) * (1/strength);
+          pxl.b += (pxl.b - m_data[index(k+1, i+1)].b) * (1/strength);
         }
 
-        pxl.r += (pxl.r - m_data[(i)*(k+1)-1].r) * (1/strength);
-        pxl.g += (pxl.g - m_data[(i)*(k+1)-1].g) * (1/strength);
-        pxl.b += (pxl.b - m_data[(i)*(k+1)-1].b) * (1/strength);
+        pxl.r += (pxl.r - m_data[index(k+1, i)].r) * (1/strength);
+        pxl.g += (pxl.g - m_data[index(k+1, i)].g) * (1/strength);
+        pxl.b += (pxl.b - m_data[index(k+1, i)].b) * (1/strength);
 
         if(left)
         {
-          pxl.r += (pxl.r - m_data[(i-1)*(k+1)-1].r) * (1/strength);
-          pxl.g += (pxl.g - m_data[(i-1)*(k+1)-1].g) * (1/strength);
-          pxl.b += (pxl.b - m_data[(i-1)*(k+1)-1].b) * (1/strength);
+          pxl.r += (pxl.r - m_data[index(k+1, i-1)].r) * (1/strength);
+          pxl.g += (pxl.g - m_data[index(k+1, i-1)].g) * (1/strength);
+          pxl.b += (pxl.b - m_data[index(k+1, i-1)].b) * (1/strength);
         }
       }
-      data[(i*k)-1] = pxl;
+      //cout << "finished this pixel" << endl;
+      data[index(k, i)] = pxl;
     }
   }
   m_data = data;
@@ -134,45 +138,46 @@ void Image::sharpen() {
 
   for (unsigned int i = 0; i< m_width*m_height; ++i){
     data[i] = m_data[i];
-}
+  }
 
-  for (unsigned int i=1; i<=m_width; i++) {
-    for (unsigned int k=1; k<=m_height; k++) {
-      Pixel pxl = m_data[(i*k)-1];
+  for (unsigned int i=0; i< m_width; i++) {
+    for (unsigned int k=0; k< m_height; k++) {
+      Pixel pxl;
+      pxl = m_data[index(k, i)];
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
       if (i+1 < m_width) {
-        data[(i+1)*k-1].r -= pxl.r * (1/strength);
-        data[(i+1)*k-1].g -= pxl.g * (1/strength);
-        data[(i+1)*k-1].b -= pxl.b * (1/strength);
+        data[index(k, i+1)].r -= pxl.r * (1/strength);
+        data[index(k, i+1)].g -= pxl.g * (1/strength);
+        data[index(k, i+1)].b -= pxl.b * (1/strength);
         right = true;
       }
-      if (i-1 > 0)
+      if ((int)i-1 >= 0)
       {
-        data[(i-1)*k-1].r -= pxl.r * (1/strength);
-        data[(i-1)*k-1].g -= pxl.g * (1/strength);
-        data[(i-1)*k-1].b -= pxl.b * (1/strength);
+        data[index(k, i-1)].r -= pxl.r * (1/strength);
+        data[index(k, i-1)].g -= pxl.g * (1/strength);
+        data[index(k, i-1)].b -= pxl.b * (1/strength);
         left = true;
       }
       //Yläpikselit
-      if (k-1 > 0)
+      if ((int)k-1 >= 0)
       {
         if (right)
         {
-          data[(i+1)*(k-1)-1].r -= pxl.r * (1/strength);
-          data[(i+1)*(k-1)-1].g -= pxl.g * (1/strength);
-          data[(i+1)*(k-1)-1].b -= pxl.b * (1/strength);
+          data[index(k-1, i+1)].r -= pxl.r * (1/strength);
+          data[index(k-1, i+1)].g -= pxl.g * (1/strength);
+          data[index(k-1, i+1)].b -= pxl.b * (1/strength);
         }
 
-        data[(i)*(k-1)-1].r -= pxl.r * (1/strength);
-        data[(i)*(k-1)-1].g -= pxl.g * (1/strength);
-        data[(i)*(k-1)-1].b -= pxl.b * (1/strength);
+        data[index(k-1, i)].r -= pxl.r * (1/strength);
+        data[index(k-1, i)].g -= pxl.g * (1/strength);
+        data[index(k-1, i)].b -= pxl.b * (1/strength);
         if (left)
         {
-          data[(i-1)*(k-1)-1].r -= pxl.r * (1/strength);
-          data[(i-1)*(k-1)-1].g -= pxl.g * (1/strength);
-          data[(i-1)*(k-1)-1].b -= pxl.b * (1/strength);
+          data[index(k-1, i-1)].r -= pxl.r * (1/strength);
+          data[index(k-1, i-1)].g -= pxl.g * (1/strength);
+          data[index(k-1, i-1)].b -= pxl.b * (1/strength);
         }
       }
 
@@ -181,20 +186,20 @@ void Image::sharpen() {
       {
         if (right)
         {
-          data[(i+1)*(k+1)-1].r -= pxl.r * (1/strength);
-          data[(i+1)*(k+1)-1].g -= pxl.g * (1/strength);
-          data[(i+1)*(k+1)-1].b -= pxl.b * (1/strength);
+          data[index(k+1, i+1)].r -= pxl.r * (1/strength);
+          data[index(k+1, i+1)].g -= pxl.g * (1/strength);
+          data[index(k+1, i+1)].b -= pxl.b * (1/strength);
         }
 
-        data[(i)*(k+1)-1].r -= pxl.r * (1/strength);
-        data[(i)*(k+1)-1].g -= pxl.g * (1/strength);
-        data[(i)*(k+1)-1].b -= pxl.b * (1/strength);
+        data[index(k+1, i)].r -= pxl.r * (1/strength);
+        data[index(k+1, i)].g -= pxl.g * (1/strength);
+        data[index(k+1, i)].b -= pxl.b * (1/strength);
 
         if(left)
         {
-          data[(i-1)*(k+1)-1].r -= pxl.r * (1/strength);
-          data[(i-1)*(k+1)-1].g -= pxl.g * (1/strength);
-          data[(i-1)*(k+1)-1].b -= pxl.b * (1/strength);
+          data[index(k+1, i-1)].r -= pxl.r * (1/strength);
+          data[index(k+1, i-1)].g -= pxl.g * (1/strength);
+          data[index(k+1, i-1)].b -= pxl.b * (1/strength);
         }
       }
     }
