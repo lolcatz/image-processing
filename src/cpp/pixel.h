@@ -1,6 +1,5 @@
-
-#ifndef H_PPM
-#define H_PPM
+#ifndef H_PIXEL
+#define H_PIXEL
 
 struct Pixel {
   unsigned r;
@@ -9,3 +8,4 @@ struct Pixel {
 };
 
 #endif
+

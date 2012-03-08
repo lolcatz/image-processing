@@ -9,7 +9,7 @@ Image::Image(unsigned width, unsigned height, unsigned maxval):
   m_width(width),
   m_height(height),
   m_maxval(maxval),
-  m_data(new unsigned char[width*height])
+  m_data(new Pixel[width*height])
 {
 }
 
