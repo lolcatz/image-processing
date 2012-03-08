@@ -36,3 +36,14 @@ Image Image::readPPM(const std::string& filename) {
   return i;
 }
 
+void Image::smoothen() {
+  cout << "Smoothing <3" << endl;
+
+  // Smoothening. doing smoothed values into a new m_data
+  //char[m_height*m_width] data;
+  //for (int i=0; i<m_width ; i++) {
+  //  for (int k=0; k<m_height; k++) {
+
+
+
+}
