@@ -69,7 +69,7 @@ void Image::smoothen() {
         pxl.b += (pxl.b - m_data[index(k, i+1)].b) * (1/strength);
         right = true;
       }
-      if (i-1 >= 0)
+      if ((int)i-1 >= 0)
       {
         pxl.r += (pxl.r - m_data[index(k, i-1)].r) * (1/strength);
         pxl.g += (pxl.g - m_data[index(k, i-1)].g) * (1/strength);
@@ -77,7 +77,7 @@ void Image::smoothen() {
         left = true;
       }
       //Yläpikselit
-      if (k-1 >= 0)
+      if ((int)k-1 >= 0)
       {
         if (right)
         {
@@ -148,7 +148,7 @@ void Image::sharpen() {
         data[index(k, i+1)].b -= pxl.b * (1/strength);
         right = true;
       }
-      if (i-1 > 0)
+      if ((int)i-1 >= 0)
       {
         data[index(k, i-1)].r -= pxl.r * (1/strength);
         data[index(k, i-1)].g -= pxl.g * (1/strength);
@@ -156,7 +156,7 @@ void Image::sharpen() {
         left = true;
       }
       //Yläpikselit
-      if (k-1 > 0)
+      if ((int)k-1 >= 0)
       {
         if (right)
         {
