@@ -123,3 +123,75 @@ void Image::smoothen() {
   m_data = data;
 }
 
+void Image::sharpen() {
+  cout << "Sharpening <3" << endl;
+
+  // copy&pasta
+
+  //Pixel[m_height*m_width] data;
+  Pixel* data = new Pixel[m_height*m_width];
+  for (unsigned int i=1; i<=m_width; i++) {
+    for (unsigned int k=1; k<=m_height; k++) {
+      Pixel pxl = m_data[(i*k)-1];
+      bool right = false;
+      bool left = false;
+      //Saman rivin viereiset pikselit
+      if (i+1 < m_width) {
+        data[(i+1)*k-1].r -= pxl.r * (1/7);
+        data[(i+1)*k-1].g -= pxl.g * (1/7);
+        data[(i+1)*k-1].b -= pxl.b * (1/7);
+        right = true;
+      }
+      if (i-1 > 0)
+      {
+        data[(i-1)*k-1].r -= pxl.r * (1/7);
+        data[(i-1)*k-1].g -= pxl.g * (1/7);
+        data[(i-1)*k-1].b -= pxl.b * (1/7);
+        left = true;
+      }
+      //Yläpikselit
+      if (k-1 > 0)
+      {
+        if (right)
+        {
+          data[(i+1)*(k-1)-1].r -= pxl.r * (1/7);
+          data[(i+1)*(k-1)-1].g -= pxl.g * (1/7);
+          data[(i+1)*(k-1)-1].b -= pxl.b * (1/7);
+        }
+
+        data[(i)*(k-1)-1].r -= pxl.r * (1/7);
+        data[(i)*(k-1)-1].g -= pxl.g * (1/7);
+        data[(i)*(k-1)-1].b -= pxl.b * (1/7);
+        if (left)
+        {
+          data[(i-1)*(k-1)-1].r -= pxl.r * (1/7);
+          data[(i-1)*(k-1)-1].g -= pxl.g * (1/7);
+          data[(i-1)*(k-1)-1].b -= pxl.b * (1/7);
+        }
+      }
+
+      //Alapikselit
+      if (k+1 < m_height)
+      {
+        if (right)
+        {
+          data[(i+1)*(k+1)-1].r -= pxl.r * (1/7);
+          data[(i+1)*(k+1)-1].g -= pxl.g * (1/7);
+          data[(i+1)*(k+1)-1].b -= pxl.b * (1/7);
+        }
+
+        data[(i)*(k+1)-1].r -= pxl.r * (1/7);
+        data[(i)*(k+1)-1].g -= pxl.g * (1/7);
+        data[(i)*(k+1)-1].b -= pxl.b * (1/7);
+
+        if(left)
+        {
+          data[(i-1)*(k+1)-1].r -= pxl.r * (1/7);
+          data[(i-1)*(k+1)-1].g -= pxl.g * (1/7);
+          data[(i-1)*(k+1)-1].b -= pxl.b * (1/7);
+        }
+      }
+    }
+  }
+  m_data = data;
+}
