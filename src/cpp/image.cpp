@@ -14,6 +14,10 @@ Image::Image(unsigned width, unsigned height, unsigned maxval):
 {
 }
 
+Image::~Image() {
+  delete[] m_data;
+}
+
 Image Image::readPPM(const std::string& filename) {
   unsigned height;
   unsigned width;
@@ -48,15 +52,14 @@ unsigned Image::index(unsigned height, unsigned width) {
   return m_width * height + width;
 }
 
-
-
-void Image::smoothen() {
+Image Image::smoothen() {
   //cout << "Smoothing <3" << endl;
   //smaller value == stronger smoothing
   int strength = 12;
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
-  Pixel* data = new Pixel[m_height*m_width];
+  Image img(m_width, m_height, m_maxval);
+  Pixel* data = img.m_data;
   for (unsigned int k=0; k < m_height; k++) {
     for (unsigned int i=0; i < m_width; i++) {
       //cout << i << ", " << k << endl;
@@ -132,16 +135,17 @@ void Image::smoothen() {
       data[index(k, i)] = pxl;
     }
   }
-  m_data = data;
+  return img;
 }
 
-void Image::sharpen() {
+Image Image::sharpen() {
   //cout << "Sharpening <3" << endl;
   int strength = 7;
   // copy&pasta
 
   //Pixel[m_height*m_width] data;
-  Pixel* data = new Pixel[m_height*m_width];
+  Image img(m_width, m_height, m_maxval);
+  Pixel* data = img.m_data;
 
   for (unsigned int i = 0; i< m_width*m_height; ++i){
     data[i] = m_data[i];
@@ -211,7 +215,7 @@ void Image::sharpen() {
       }
     }
   }
-  m_data = data;
+  return img;
 }
 
 std::ostream& Image::printPPM(std::ostream& out) {

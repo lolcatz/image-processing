@@ -11,12 +11,14 @@ struct Image {
   unsigned m_maxval;
   Pixel* m_data;
 
-  static Image readPPM(const std::string&);
   Image(unsigned, unsigned, unsigned);
+  ~Image();
+
+  static Image readPPM(const std::string&);
 
   unsigned index(unsigned, unsigned);
-  void sharpen();
-  void smoothen();
+  Image sharpen();
+  Image smoothen();
   std::ostream& printPPM(std::ostream&);
 };
 
