@@ -18,7 +18,7 @@ TARGETS := $(BIN)/main
 WARNINGS := -W -Wall -Wextra -pedantic -Wshadow -Wpointer-arith \
 	-Wwrite-strings -Wmissing-declarations \
 	-Wredundant-decls -Winline -Wno-long-long \
-	-Wconversion -Wcast-qual -Wcast-align
+	-Wconversion -Wcast-qual -Wcast-align -Weffc++
 
 IDIRS := -I$(SRC_DIR)
 CFLAGS := $(IDIRS) $(WARNINGS) -Werror -std=c++0x

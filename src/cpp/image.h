@@ -21,6 +21,10 @@ struct Image {
   static Image sharpen(Image&, Image&, unsigned, unsigned);
   static Image smoothen(Image&, Image&, unsigned, unsigned);
   std::ostream& printPPM(std::ostream&);
+
+  private:
+  Image operator=(const Image&);
+
 };
 
 #endif

@@ -13,20 +13,20 @@ Image::Image(unsigned width, unsigned height, unsigned maxval):
   m_data(new Pixel[width*height])
 {
 }
-Image::Image(const Image& i) {
-  m_width = i.m_width;
-  m_height = i.m_height;
-  m_maxval = i.m_maxval;
-  m_data = new Pixel[m_width*m_height];
+
+Image::Image(const Image& i):
+  m_width(i.m_width),
+  m_height(i.m_height),
+  m_maxval(i.m_maxval),
+  m_data(new Pixel[m_width*m_height])
+{
   for (unsigned k = 0; k < m_width*m_height; k++)
   {
     m_data[k].r = i.m_data[k].r;
     m_data[k].g = i.m_data[k].g;
     m_data[k].b = i.m_data[k].b;
   }
-    
 }
-
 
 Image::~Image() {
   delete[] m_data;
