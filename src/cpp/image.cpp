@@ -55,7 +55,7 @@ unsigned Image::index(unsigned height, unsigned width) {
 Image Image::smoothen() {
   //cout << "Smoothing <3" << endl;
   //smaller value == stronger smoothing
-  int strength = 12;
+  int strength = 7;
   // Smoothening. doing smoothed values into a new m_data
   //Pixel[m_height*m_width] data;
   Image img(m_width, m_height, m_maxval);
@@ -125,11 +125,11 @@ Image Image::smoothen() {
         }
       }
       if (pxl.r < 0)
-	pxl.r = 0;
+        pxl.r = 0;
       if (pxl.b < 0)
-	pxl.b = 0;
+        pxl.b = 0;
       if (pxl.g < 0)
-	pxl.g = 0;
+        pxl.g = 0;
 
       //cout << "finished this pixel" << endl;
       data[index(k, i)] = pxl;
@@ -147,28 +147,26 @@ Image Image::sharpen() {
   Image img(m_width, m_height, m_maxval);
   Pixel* data = img.m_data;
 
-  for (unsigned int i = 0; i< m_width*m_height; ++i){
-    data[i] = m_data[i];
-  }
-
   for (unsigned int i=0; i< m_width; i++) {
     for (unsigned int k=0; k< m_height; k++) {
+      //cout << i << ", " << k << endl;
       Pixel pxl;
       pxl = m_data[index(k, i)];
+      //cout << "doing something" << endl;
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
       if (i+1 < m_width) {
-        data[index(k, i+1)].r -= pxl.r * (1/strength);
-        data[index(k, i+1)].g -= pxl.g * (1/strength);
-        data[index(k, i+1)].b -= pxl.b * (1/strength);
+        pxl.r -= -(pxl.r - m_data[index(k, i+1)].r)/strength;
+        pxl.g -= -(pxl.g - m_data[index(k, i+1)].g)/strength;
+        pxl.b -= -(pxl.b - m_data[index(k, i+1)].b)/strength;
         right = true;
       }
       if ((int)i-1 >= 0)
       {
-        data[index(k, i-1)].r -= pxl.r * (1/strength);
-        data[index(k, i-1)].g -= pxl.g * (1/strength);
-        data[index(k, i-1)].b -= pxl.b * (1/strength);
+        pxl.r -= -(pxl.r - m_data[index(k, i-1)].r)/strength;
+        pxl.g -= -(pxl.g - m_data[index(k, i-1)].g)/strength;
+        pxl.b -= -(pxl.b - m_data[index(k, i-1)].b)/strength;
         left = true;
       }
       //Yläpikselit
@@ -176,19 +174,19 @@ Image Image::sharpen() {
       {
         if (right)
         {
-          data[index(k-1, i+1)].r -= pxl.r * (1/strength);
-          data[index(k-1, i+1)].g -= pxl.g * (1/strength);
-          data[index(k-1, i+1)].b -= pxl.b * (1/strength);
+          pxl.r -= -(pxl.r - m_data[index(k-1, i+1)].r)/strength;
+          pxl.g -= -(pxl.g - m_data[index(k-1, i+1)].g)/strength;
+          pxl.b -= -(pxl.b - m_data[index(k-1, i+1)].b)/strength;
         }
 
-        data[index(k-1, i)].r -= pxl.r * (1/strength);
-        data[index(k-1, i)].g -= pxl.g * (1/strength);
-        data[index(k-1, i)].b -= pxl.b * (1/strength);
+        pxl.r -= -(pxl.r - m_data[index(k-1, i)].r)/strength;
+        pxl.g -= -(pxl.g - m_data[index(k-1, i)].g)/strength;
+        pxl.b -= -(pxl.b - m_data[index(k-1, i)].b)/strength;
         if (left)
         {
-          data[index(k-1, i-1)].r -= pxl.r * (1/strength);
-          data[index(k-1, i-1)].g -= pxl.g * (1/strength);
-          data[index(k-1, i-1)].b -= pxl.b * (1/strength);
+          pxl.r -= -(pxl.r - m_data[index(k-1, i-1)].r)/strength;
+          pxl.g -= -(pxl.g - m_data[index(k-1, i-1)].g)/strength;
+          pxl.b -= -(pxl.b - m_data[index(k-1, i-1)].b)/strength;
         }
       }
 
@@ -197,22 +195,31 @@ Image Image::sharpen() {
       {
         if (right)
         {
-          data[index(k+1, i+1)].r -= pxl.r * (1/strength);
-          data[index(k+1, i+1)].g -= pxl.g * (1/strength);
-          data[index(k+1, i+1)].b -= pxl.b * (1/strength);
+          pxl.r -= -(pxl.r - m_data[index(k+1, i+1)].r)/strength;
+          pxl.g -= -(pxl.g - m_data[index(k+1, i+1)].g)/strength;
+          pxl.b -= -(pxl.b - m_data[index(k+1, i+1)].b)/strength;
         }
 
-        data[index(k+1, i)].r -= pxl.r * (1/strength);
-        data[index(k+1, i)].g -= pxl.g * (1/strength);
-        data[index(k+1, i)].b -= pxl.b * (1/strength);
+        pxl.r -= -(pxl.r - m_data[index(k+1, i)].r)/strength;
+        pxl.g -= -(pxl.g - m_data[index(k+1, i)].g)/strength;
+        pxl.b -= -(pxl.b - m_data[index(k+1, i)].b)/strength;
 
         if(left)
         {
-          data[index(k+1, i-1)].r -= pxl.r * (1/strength);
-          data[index(k+1, i-1)].g -= pxl.g * (1/strength);
-          data[index(k+1, i-1)].b -= pxl.b * (1/strength);
+          pxl.r -= -(pxl.r - m_data[index(k+1, i-1)].r)/strength;
+          pxl.g -= -(pxl.g - m_data[index(k+1, i-1)].g)/strength;
+          pxl.b -= -(pxl.b - m_data[index(k+1, i-1)].b)/strength;
         }
       }
+      if (pxl.r < 0)
+        pxl.r = 0;
+      if (pxl.b < 0)
+        pxl.b = 0;
+      if (pxl.g < 0)
+        pxl.g = 0;
+
+      //cout << "finished this pixel" << endl;
+      data[index(k, i)] = pxl;
     }
   }
   return img;
