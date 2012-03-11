@@ -3,16 +3,19 @@
 
 int main(void) {
   Image i = Image::readPPM("data/feep.ppm");
+  Image smoothened = Image(i);
+  Image sharpened = Image(i);
   std::cout << "Original image:" << std::endl;
   i.printPPM(std::cout);
 
   std::cout << "Smoothened image:" << std::endl;
-  Image i2 = i.smoothen();
-  i2.printPPM(std::cout);
+  Image::smoothen(i, smoothened, 0, i.m_height);
+  smoothened.printPPM(std::cout);
 
   std::cout << "Sharpened image:" << std::endl;
-  Image i3 = i2.sharpen();
-  i3.printPPM(std::cout);
+  Image::sharpen(smoothened, sharpened, 0, smoothened.m_height);
+  sharpened.printPPM(std::cout);
+
 
   /*
   Image i4 = Image::readPPM("data/test.ppm");

@@ -12,13 +12,14 @@ struct Image {
   Pixel* m_data;
 
   Image(unsigned, unsigned, unsigned);
+  Image(const Image&);
   ~Image();
 
   static Image readPPM(const std::string&);
 
   unsigned index(unsigned, unsigned);
-  Image sharpen();
-  Image smoothen();
+  static Image sharpen(Image&, Image&, unsigned, unsigned);
+  static Image smoothen(Image&, Image&, unsigned, unsigned);
   std::ostream& printPPM(std::ostream&);
 };
 
