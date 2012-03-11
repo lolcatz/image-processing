@@ -28,10 +28,12 @@ CFLAGS := $(IDIRS) $(WARNINGS) -Werror -std=c++0x
 all: dirs $(TARGETS)
 
 $(OBJ)/%.o: %.cpp
+	@echo "CXX $< -> $@"
 	@$(CXX) $(CFLAGS) -MMD -MP -MT "$*.d $*.o" -c $< -o $@
 
 $(BIN)/main: $(OBJS)
-	$(CXX) $^ -o $@ $(LIBS)
+	@echo "LN $^ -> $@"
+	@$(CXX) $^ -o $@ $(LIBS)
 
 clean:
 	@$(RM) -r $(OUT_DIRS)
