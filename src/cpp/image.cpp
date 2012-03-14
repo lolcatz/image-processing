@@ -67,20 +67,13 @@ unsigned Image::index(unsigned height, unsigned width) {
 }
 
 Image Image::smoothen(Image& source, Image& target, unsigned row_start, unsigned row_end) {
-  //cout << "Smoothing <3" << endl;
   //smaller value == stronger smoothing
   int strength = 7;
-  // Smoothening. doing smoothed values into a new m_data
-  //Pixel[m_height*m_width] data;
-  //Image img(m_width, m_height, m_maxval);
-  //Pixel* data = img.m_data;
-  
+
   for (unsigned int k = row_start; k < row_end; k++) {
     for (unsigned int i=0; i < source.m_width; i++) {
-      //cout << i << ", " << k << endl;
       Pixel pxl;
       pxl = source.m_data[source.index(k, i)];
-      //cout << "doing something" << endl;
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
@@ -146,7 +139,6 @@ Image Image::smoothen(Image& source, Image& target, unsigned row_start, unsigned
       if (pxl.g < 0)
         pxl.g = 0;
 
-      //cout << "finished this pixel" << endl;
       target.m_data[target.index(k, i)] = pxl;
     }
   }
@@ -154,20 +146,13 @@ Image Image::smoothen(Image& source, Image& target, unsigned row_start, unsigned
 }
 
 Image Image::sharpen(Image& source, Image& target, unsigned row_start, unsigned row_end) {
-  //cout << "Sharpening <3" << endl;
   int strength = 7;
-  // copy&pasta
+  // Strenth, same as in smoothen
 
-  //Pixel[m_height*m_width] data;
-  //Image img(m_width, m_height, m_maxval);
-  //Pixel* data = img.m_data;
-  
   for (unsigned int k=row_start; k < row_end; k++) {
     for (unsigned int i=0; i < source.m_width; i++) {
-      //cout << i << ", " << k << endl;
       Pixel pxl;
       pxl = source.m_data[source.index(k, i)];
-      //cout << "doing something" << endl;
       bool right = false;
       bool left = false;
       //Saman rivin viereiset pikselit
@@ -197,7 +182,7 @@ Image Image::sharpen(Image& source, Image& target, unsigned row_start, unsigned 
         pxl.r -= -(pxl.r - source.m_data[source.index(k-1, i)].r)/strength;
         pxl.g -= -(pxl.g - source.m_data[source.index(k-1, i)].g)/strength;
         pxl.b -= -(pxl.b - source.m_data[source.index(k-1, i)].b)/strength;
-        
+
         if (left)
         {
           pxl.r -= -(pxl.r - source.m_data[source.index(k-1, i-1)].r)/strength;
@@ -234,7 +219,6 @@ Image Image::sharpen(Image& source, Image& target, unsigned row_start, unsigned 
       if (pxl.g < 0)
         pxl.g = 0;
 
-      //cout << "finished this pixel" << endl;
       target.m_data[target.index(k, i)] = pxl;
     }
   }
