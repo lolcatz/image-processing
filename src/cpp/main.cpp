@@ -16,29 +16,40 @@ int main(void) {
   Image::sharpen(smoothened, sharpened, 0, smoothened.m_height);
   sharpened.printPPM(std::cout);
 
+  std::cout << std::endl << std::endl << "Starting work on test.ppm" << std::endl << std::endl;
 
-  /*
-  Image i4 = Image::readPPM("data/test.ppm");
-  std::cout << "Output to file... " << std::endl;
-  Image i5 = i4.smoothen();
   std::ofstream outputFile;
-  outputFile.open("result_smoothened.ppm");
-  i5.printPPM(outputFile);
-  std::cout << "..result_smoothened.ppm done" << std::endl;
+  Image i2 = Image::readPPM("data/test.ppm");
 
-  Image i6 = Image::readPPM("data/test.ppm");
-  Image i8 = i6.sharpen();
-  outputFile.open("result_sharpened.ppm");
-  i8.printPPM(outputfile);
-  std::cout << "..result_sharpened.ppm done" << std::endl;
+  std::cout << "..result_smooth.ppm";
+  Image i_smooth = Image(i2);
+  Image::smoothen(i2, i_smooth, 0, i2.m_height);
+  outputFile.open("result_smooth.ppm");
+  i_smooth.printPPM(outputFile);
+  outputFile << std::flush;
+  outputFile.close();
+  std::cout << " done!" << std::endl;
 
-  Image i7 = i5.sharpen();
-  outputFile.open("result_smooth_then_sharp.ppm");
-  i7.printPPM(outputFile);
-  std::cout << "..result_smooth&sharp.ppm done" << std::endl;
+  std::cout << "..result_sharp.ppm";
+  Image i_sharp = Image(i2);
+  Image::sharpen(i2, i_sharp, 0, i2.m_height);
+  outputFile.open("result_sharp.ppm");
+  i_sharp.printPPM(outputFile);
+  outputFile << std::flush;
+  outputFile.close();
+  std::cout << " done!" << std::endl;
 
-  std::cout << std::endl << std::endl << "Notice!" << std::endl << "It will not override the file if it existed" << std::endl;
-  */
+  std::cout << "..result_both.ppm";
+  Image i_both = Image(i_smooth);
+  Image::sharpen(i_smooth, i_both, 0, i_smooth.m_height);
+  outputFile.open("result_both.ppm");
+  i_both.printPPM(outputFile);
+  outputFile << std::flush;
+  outputFile.close();
+  std::cout << " done!" << std::endl;
+
+  std::cout << std::endl << std::endl << "Notice!" << std::endl << "It will override the file if it existed" << std::endl;
+
   return 0;
 }
 
